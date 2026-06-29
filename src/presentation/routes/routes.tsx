@@ -10,8 +10,6 @@ import Compress from '../pages/tools/compress/Compress'
 import ImgToPdf from '../pages/tools/img-to-pdf/ImgToPdf'
 import PdfToImg from '../pages/tools/pdf-to-img/PdfToImg'
 import PdfToWord from '../pages/tools/pdf-to-word/PdfToWord'
-import Protect from '../pages/tools/protect/Protect'
-import Unlock from '../pages/tools/unlock/Unlock'
 
 const AppRoutes = () => (
   <Routes>
@@ -26,8 +24,6 @@ const AppRoutes = () => (
     <Route path="/img-to-pdf" element={<ImgToPdf />} />
     <Route path="/pdf-to-img" element={<PdfToImg />} />
     <Route path="/pdf-to-word" element={<PdfToWord />} />
-    <Route path="/protect"    element={<Protect />} />
-    <Route path="/unlock"     element={<Unlock />} />
   </Routes>
 )
 

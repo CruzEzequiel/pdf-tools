@@ -42,12 +42,4 @@ export const navGroups: NavGroup[] = [
       { label: 'PDF a Word',      path: '/pdf-to-word', icon: 'FileText',   status: 'backend-required' },
     ],
   },
-  {
-    category: 'security',
-    label: 'Seguridad',
-    items: [
-      { label: 'Proteger PDF',    path: '/protect',  icon: 'Lock',        status: 'available' },
-      { label: 'Desbloquear PDF', path: '/unlock',   icon: 'LockOpen',    status: 'backend-required' },
-    ],
-  },
 ]

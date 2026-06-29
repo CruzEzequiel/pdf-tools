@@ -20,7 +20,6 @@ export default function ReorderView() {
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const draggingIndex = useRef(-1)
   const [dragging, setDragging] = useState(-1)
   const [dragOver, setDragOver] = useState(-1)
 
@@ -69,29 +68,29 @@ export default function ReorderView() {
     })
   }
 
-  const handleDragStart = (i: number) => {
-    draggingIndex.current = i
+  const handleDragStart = (e: React.DragEvent, i: number) => {
+    e.dataTransfer.setData('text/plain', String(i))
+    e.dataTransfer.effectAllowed = 'move'
     setDragging(i)
   }
 
   const handleDragOver = (e: React.DragEvent, i: number) => {
     e.preventDefault()
-    if (i !== draggingIndex.current) setDragOver(i)
+    e.dataTransfer.dropEffect = 'move'
+    setDragOver(i)
   }
 
-  const handleDrop = (i: number) => {
-    if (draggingIndex.current !== -1 && draggingIndex.current !== i) {
-      move(draggingIndex.current, i)
-    }
+  const handleDrop = (e: React.DragEvent, i: number) => {
+    e.preventDefault()
+    const from = Number(e.dataTransfer.getData('text/plain'))
+    if (!isNaN(from) && from !== i) move(from, i)
     setDragging(-1)
     setDragOver(-1)
-    draggingIndex.current = -1
   }
 
   const handleDragEnd = () => {
     setDragging(-1)
     setDragOver(-1)
-    draggingIndex.current = -1
   }
 
   const handleDownload = async () => {
@@ -153,9 +152,9 @@ export default function ReorderView() {
                       <li
                         key={`${page.originalPage}`}
                         draggable
-                        onDragStart={() => handleDragStart(i)}
+                        onDragStart={(e) => handleDragStart(e, i)}
                         onDragOver={(e) => handleDragOver(e, i)}
-                        onDrop={() => handleDrop(i)}
+                        onDrop={(e) => handleDrop(e, i)}
                         onDragEnd={handleDragEnd}
                         className={`relative flex items-center gap-2 px-2 py-2 rounded-lg border cursor-grab transition-all duration-150
                           ${insertAbove ? 'translate-y-1' : ''}
