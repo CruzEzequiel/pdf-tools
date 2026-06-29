@@ -129,7 +129,7 @@ export default function RotateView() {
             </div>
           )}
 
-          {(status === 'ready' || status === 'processing' || status === 'done') && (
+          {(status === 'ready' || status === 'processing' || status === 'done' || status === 'error') && (
             <>
               <div className="shrink-0 flex items-center gap-2">
                 <button

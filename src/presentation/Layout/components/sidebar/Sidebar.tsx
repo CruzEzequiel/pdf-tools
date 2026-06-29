@@ -19,7 +19,7 @@ export default function Sidebar({ onNavigate, borderless }: SidebarProps) {
           </p>
           <ul>
             {group.items.map((item) => {
-              const Icon = (Icons as Record<string, Icons.LucideIcon>)[item.icon] ?? Icons.File
+              const Icon = (Icons as unknown as Record<string, Icons.LucideIcon>)[item.icon] ?? Icons.File
               const isActive = pathname === item.path
               const isComingSoon = item.status === 'backend-required'
 

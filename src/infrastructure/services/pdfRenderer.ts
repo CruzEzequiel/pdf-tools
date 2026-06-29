@@ -20,7 +20,7 @@ export async function renderPageToDataUrl(
   const page = await pdf.getPage(pageNumber)
   const viewport = page.getViewport({ scale })
   const { canvas, ctx } = makeCanvas(viewport)
-  await page.render({ canvasContext: ctx, viewport }).promise
+  await page.render({ canvasContext: ctx, viewport, canvas: null }).promise
   return canvas.toDataURL('image/jpeg', 0.92)
 }
 
@@ -37,7 +37,7 @@ export async function renderAllPages(
     const page = await pdf.getPage(i)
     const viewport = page.getViewport({ scale })
     const { canvas, ctx } = makeCanvas(viewport)
-    await page.render({ canvasContext: ctx, viewport }).promise
+    await page.render({ canvasContext: ctx, viewport, canvas: null }).promise
     thumbs.push(canvas.toDataURL('image/jpeg', 0.92))
   }
 

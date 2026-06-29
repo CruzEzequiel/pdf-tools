@@ -122,7 +122,7 @@ function PageCanvas({ page, containerWidth }: { page: pdfjsLib.PDFPageProxy; con
     canvas.style.width = `${containerWidth}px`
     canvas.style.height = `${viewport.height / dpr}px`
 
-    const task = page.render({ canvasContext: canvas.getContext('2d')!, viewport })
+    const task = page.render({ canvasContext: canvas.getContext('2d')!, viewport, canvas: null })
     renderTaskRef.current = task
 
     task.promise.catch((err) => {

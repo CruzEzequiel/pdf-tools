@@ -16,7 +16,7 @@ export default function HomeView() {
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {group.items.map((item) => {
-                const Icon = (Icons as Record<string, Icons.LucideIcon>)[item.icon] ?? Icons.File
+                const Icon = (Icons as unknown as Record<string, Icons.LucideIcon>)[item.icon] ?? Icons.File
                 const isComingSoon = item.status === 'backend-required'
 
                 return (

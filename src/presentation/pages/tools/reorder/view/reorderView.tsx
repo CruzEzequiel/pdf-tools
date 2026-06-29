@@ -133,7 +133,7 @@ export default function ReorderView() {
             </div>
           )}
 
-          {(status === 'ready' || status === 'processing' || status === 'done') && (
+          {(status === 'ready' || status === 'processing' || status === 'done' || status === 'error') && (
             <>
               <p className="shrink-0 text-xs text-gray-600">
                 Arrastra las páginas para cambiar el orden

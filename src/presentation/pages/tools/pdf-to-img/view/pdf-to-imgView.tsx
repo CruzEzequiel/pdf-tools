@@ -115,7 +115,7 @@ export default function PdfToImgView() {
             </div>
           )}
 
-          {(status === 'ready' || status === 'downloading' || status === 'done') && (
+          {(status === 'ready' || status === 'downloading' || status === 'done' || status === 'error') && (
             <>
               <div className="shrink-0 flex items-center justify-between">
                 <button

@@ -5,9 +5,8 @@ import ToolLayout from '../../../../components/ui/ToolLayout'
 import PdfViewer from '../../../../components/ui/PdfViewer'
 import { renderAllPages } from '../../../../../infrastructure/services/pdfRenderer'
 import { extractPages } from '../../../../../infrastructure/useCases/extractPages'
-import { getPdfPageCount } from '../../../../../infrastructure/useCases/splitPdf'
 
-type Status = 'idle' | 'loading' | 'ready' | 'processing' | 'done' | 'error'
+type Status = 'idle' | 'loading' | 'ready' | 'processing' | 'done' | 'error' | 'error'
 
 export default function ExtractView() {
   const [file, setFile] = useState<File | null>(null)
@@ -112,7 +111,7 @@ export default function ExtractView() {
             </div>
           )}
 
-          {(status === 'ready' || status === 'processing' || status === 'done') && (
+          {(status === 'ready' || status === 'processing' || status === 'done' || status === 'error') && (
             <>
               <div className="shrink-0 flex items-center justify-between">
                 <button

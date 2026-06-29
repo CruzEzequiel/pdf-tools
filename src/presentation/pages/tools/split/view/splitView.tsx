@@ -116,7 +116,7 @@ export default function SplitView() {
             </div>
           )}
 
-          {(status === 'ready' || status === 'processing' || status === 'done') && (
+          {(status === 'ready' || status === 'processing' || status === 'done' || status === 'error') && (
             <>
               <div className="flex-1 overflow-y-auto min-h-0">
                 <RangeList
