@@ -18,9 +18,9 @@ export const navGroups: NavGroup[] = [
     category: 'organize',
     label: 'Organizar',
     items: [
-      { label: 'Unir PDFs',       path: '/merge',   icon: 'Combine',    status: 'available' },
-      { label: 'Dividir PDF',     path: '/split',   icon: 'Scissors',   status: 'available' },
-      { label: 'Extraer páginas', path: '/extract', icon: 'FileOutput', status: 'available' },
+      { label: 'Unir PDFs',       path: '/merge',   icon: 'Combine',      status: 'available' },
+      { label: 'Dividir PDF',     path: '/split',   icon: 'Scissors',     status: 'available' },
+      { label: 'Extraer páginas', path: '/extract', icon: 'FileOutput',   status: 'available' },
       { label: 'Reordenar',       path: '/reorder', icon: 'GripVertical', status: 'available' },
     ],
   },
@@ -28,18 +28,15 @@ export const navGroups: NavGroup[] = [
     category: 'edit',
     label: 'Editar',
     items: [
-      { label: 'Rotar páginas',   path: '/rotate',    icon: 'RotateCw',    status: 'available' },
-      { label: 'Marca de agua',   path: '/watermark', icon: 'Droplets',    status: 'available' },
-      { label: 'Comprimir',       path: '/compress',  icon: 'PackageOpen', status: 'backend-required' },
+      { label: 'Rotar páginas', path: '/rotate', icon: 'RotateCw', status: 'available' },
     ],
   },
   {
     category: 'convert',
     label: 'Convertir',
     items: [
-      { label: 'Imagen a PDF',    path: '/img-to-pdf', icon: 'ImagePlus',   status: 'available' },
-      { label: 'PDF a imagen',    path: '/pdf-to-img', icon: 'Image',       status: 'available' },
-      { label: 'PDF a Word',      path: '/pdf-to-word', icon: 'FileText',   status: 'backend-required' },
+      { label: 'Imagen a PDF', path: '/img-to-pdf', icon: 'ImagePlus', status: 'available' },
+      { label: 'PDF a imagen', path: '/pdf-to-img', icon: 'Image',     status: 'available' },
     ],
   },
 ]
