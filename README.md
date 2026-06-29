@@ -1,5 +1,7 @@
 # PDF Tools
 
+![PDF Tools - Página de inicio](docs/images/main.png)
+
 Herramienta web para manipulación de archivos PDF que corre completamente en el navegador. Sin subida a servidores — todo el procesamiento es local.
 
 ## Stack
