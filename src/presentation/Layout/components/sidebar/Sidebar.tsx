@@ -2,11 +2,16 @@ import { Link, useLocation } from 'react-router-dom'
 import * as Icons from 'lucide-react'
 import { navGroups } from './navItems'
 
-export default function Sidebar() {
+interface SidebarProps {
+  onNavigate?: () => void
+  borderless?: boolean
+}
+
+export default function Sidebar({ onNavigate, borderless }: SidebarProps) {
   const { pathname } = useLocation()
 
   return (
-    <aside className="w-56 shrink-0 border-r border-gray-800 flex flex-col py-6 gap-6 overflow-y-auto">
+    <aside className={`shrink-0 flex flex-col py-6 gap-6 overflow-y-auto ${borderless ? 'w-full' : 'w-56 border-r border-gray-800'}`}>
       {navGroups.map((group) => (
         <div key={group.category}>
           <p className="px-4 mb-1 text-[11px] font-semibold uppercase tracking-widest text-gray-600">
@@ -22,6 +27,7 @@ export default function Sidebar() {
                 <li key={item.path}>
                   <Link
                     to={item.path}
+                    onClick={onNavigate}
                     className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors rounded-none
                       ${isActive
                         ? 'bg-gray-800 text-purple-400'

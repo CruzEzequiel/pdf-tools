@@ -23,7 +23,7 @@ export default function FileDropzone({ onFiles, multiple = false, label }: FileD
       onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
       onDragLeave={() => setDragging(false)}
       onDrop={(e) => { e.preventDefault(); setDragging(false); handle(e.dataTransfer.files) }}
-      className={`flex flex-col items-center justify-center gap-3 border-2 border-dashed rounded-xl p-12 cursor-pointer transition-colors
+      className={`flex flex-col items-center justify-center gap-3 border-2 border-dashed rounded-xl p-6 sm:p-12 cursor-pointer transition-colors
         ${dragging ? 'border-purple-500 bg-purple-500/5' : 'border-gray-700 hover:border-gray-500 hover:bg-gray-800/30'}`}
     >
       <UploadCloud size={36} className={dragging ? 'text-purple-400' : 'text-gray-600'} />

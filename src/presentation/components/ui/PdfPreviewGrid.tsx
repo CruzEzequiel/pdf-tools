@@ -30,7 +30,7 @@ export default function PdfPreviewGrid({ pages, loading, emptyMessage }: PdfPrev
   }
 
   return (
-    <div className="grid grid-cols-2 gap-3 p-4 overflow-y-auto">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 overflow-y-auto">
       {pages.map((page, i) => (
         <div key={i} className="flex flex-col items-center gap-1">
           <div className="w-full rounded border border-gray-700 overflow-hidden bg-gray-900">

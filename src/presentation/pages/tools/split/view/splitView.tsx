@@ -161,12 +161,17 @@ export default function SplitView() {
       </div>
     )
 
+  const selectedRangeName = ranges[selectedRange]
+    ? `${file?.name} — páginas ${ranges[selectedRange].from}–${ranges[selectedRange].to}`
+    : undefined
+
   return (
     <ToolLayout
       title="Dividir PDF"
       description="Define rangos de páginas. Haz clic en un rango para previsualizarlo."
       panel={panel}
       preview={preview}
+      previewLabel={selectedRangeName}
     />
   )
 }

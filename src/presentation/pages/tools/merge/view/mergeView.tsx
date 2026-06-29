@@ -129,6 +129,7 @@ export default function MergeView() {
       description="Combina múltiples PDFs en uno. Haz clic en un archivo para previsualizarlo."
       panel={panel}
       preview={preview}
+      previewLabel={files[selected]?.name}
     />
   )
 }

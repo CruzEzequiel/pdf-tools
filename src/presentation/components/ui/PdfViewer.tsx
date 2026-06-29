@@ -100,9 +100,16 @@ export default function PdfViewer({ file }: PdfViewerProps) {
 
 function PageCanvas({ page, containerWidth }: { page: pdfjsLib.PDFPageProxy; containerWidth: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const renderTaskRef = useRef<pdfjsLib.RenderTask | null>(null)
 
   useEffect(() => {
     if (!canvasRef.current || containerWidth <= 0) return
+
+    // Cancela render previo antes de iniciar uno nuevo
+    if (renderTaskRef.current) {
+      renderTaskRef.current.cancel()
+      renderTaskRef.current = null
+    }
 
     const dpr = window.devicePixelRatio || 1
     const baseViewport = page.getViewport({ scale: 1 })
@@ -115,7 +122,19 @@ function PageCanvas({ page, containerWidth }: { page: pdfjsLib.PDFPageProxy; con
     canvas.style.width = `${containerWidth}px`
     canvas.style.height = `${viewport.height / dpr}px`
 
-    page.render({ canvasContext: canvas.getContext('2d')!, viewport })
+    const task = page.render({ canvasContext: canvas.getContext('2d')!, viewport })
+    renderTaskRef.current = task
+
+    task.promise.catch((err) => {
+      if (err?.name !== 'RenderingCancelledException') console.error(err)
+    }).finally(() => {
+      renderTaskRef.current = null
+    })
+
+    return () => {
+      task.cancel()
+      renderTaskRef.current = null
+    }
   }, [page, containerWidth])
 
   return <canvas ref={canvasRef} className="rounded shadow-lg shadow-black/40 bg-white" />
