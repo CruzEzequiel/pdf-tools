@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { FileText, Menu, X } from 'lucide-react'
+import { FileText, Menu, X, ShieldCheck } from 'lucide-react'
 import Sidebar from './components/sidebar/Sidebar'
 import { useIsMobile } from '../hooks/useDevice'
 
@@ -29,6 +29,11 @@ export default function PageLayout({ children }: PageLayoutProps) {
           <FileText size={20} />
           PDF Tools
         </Link>
+
+        <div className="ml-auto flex items-center gap-1.5 text-[11px] text-gray-600">
+          <ShieldCheck size={13} className="text-green-600 shrink-0" />
+          {isMobile ? 'Procesado en tu dispositivo' : 'Todo se procesa en tu dispositivo — no recopilamos ni enviamos tus archivos'}
+        </div>
       </header>
 
       <div className="flex flex-1 overflow-hidden">
