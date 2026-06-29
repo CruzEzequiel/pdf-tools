@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Download, Loader2, Plus } from 'lucide-react'
 import FileDropzone from '../../../../components/ui/FileDropzone'
 import FileList from './components/FileList'
@@ -11,8 +11,30 @@ type Status = 'idle' | 'processing' | 'done' | 'error'
 export default function MergeView() {
   const [files, setFiles] = useState<File[]>([])
   const [selected, setSelected] = useState<number>(0)
+  const [previewFile, setPreviewFile] = useState<File | null>(null)
   const [status, setStatus] = useState<Status>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Regenera el preview unido cada vez que cambia la lista o el orden
+  useEffect(() => {
+    if (files.length === 0) { setPreviewFile(null); return }
+    if (files.length === 1) { setPreviewFile(files[0]); return }
+
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const bytes = await mergePdfs(files)
+        const blob = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' })
+        setPreviewFile(new File([blob], 'merged.pdf', { type: 'application/pdf' }))
+      } catch {
+        // fallo silencioso en preview
+      }
+    }, 400)
+
+    return () => { if (debounceRef.current) clearTimeout(debounceRef.current) }
+  }, [files])
 
   const addFiles = (incoming: File[]) => {
     setFiles((prev) => {
@@ -43,13 +65,11 @@ export default function MergeView() {
   }
 
   const handleMerge = async () => {
-    if (files.length < 2) return
+    if (!previewFile) return
     setStatus('processing')
     setErrorMsg('')
     try {
-      const bytes = await mergePdfs(files)
-      const blob = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' })
-      const url = URL.createObjectURL(blob)
+      const url = URL.createObjectURL(previewFile)
       const a = document.createElement('a')
       a.href = url
       a.download = 'merged.pdf'
@@ -68,7 +88,6 @@ export default function MergeView() {
         <FileDropzone onFiles={addFiles} multiple label="Arrastra los PDFs aquí" />
       ) : (
         <>
-          {/* Lista con scroll interno */}
           <div className="flex-1 overflow-y-auto flex flex-col gap-3 min-h-0">
             <FileList
               files={files}
@@ -95,13 +114,12 @@ export default function MergeView() {
             </button>
           </div>
 
-          {/* Botón fijo abajo */}
           <div className="shrink-0 flex flex-col gap-2 pt-2 border-t border-gray-800">
             {status === 'done' && <p className="text-xs text-green-400">Descargado correctamente.</p>}
             {status === 'error' && <p className="text-xs text-red-400">{errorMsg}</p>}
             <button
               onClick={handleMerge}
-              disabled={files.length < 2 || status === 'processing'}
+              disabled={files.length < 2 || status === 'processing' || !previewFile}
               className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg bg-purple-600 hover:bg-purple-500 disabled:opacity-40 disabled:cursor-not-allowed text-white text-sm font-medium transition-colors"
             >
               {status === 'processing'
@@ -115,21 +133,25 @@ export default function MergeView() {
     </div>
   )
 
-  const preview = files[selected]
-    ? <PdfViewer file={files[selected]} />
+  const preview = previewFile
+    ? <PdfViewer file={previewFile} />
     : (
       <div className="flex items-center justify-center h-full text-sm text-gray-700">
         Agrega archivos para ver la vista previa
       </div>
     )
 
+  const previewLabel = files.length > 1
+    ? `Resultado: ${files.length} PDFs unidos`
+    : files[0]?.name
+
   return (
     <ToolLayout
       title="Unir PDFs"
-      description="Combina múltiples PDFs en uno. Haz clic en un archivo para previsualizarlo."
+      description="Combina múltiples PDFs en uno. La vista previa muestra el resultado final."
       panel={panel}
       preview={preview}
-      previewLabel={files[selected]?.name}
+      previewLabel={previewLabel}
     />
   )
 }
